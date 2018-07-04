@@ -273,7 +273,7 @@ def get_access_token():
 	return session.get('access_token')
 
 def main():
-	app.run(port=5000)
+	app.run()
 
 if __name__ == '__main__':
 	main()
