@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+gunicorn = "*"
 flask = "*"
 flask-oauth-dev = {git = "https://github.com/mitsuhiko/flask-oauth.git"}
 flask-cors = "*"
