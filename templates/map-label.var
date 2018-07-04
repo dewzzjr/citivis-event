@@ -1,0 +1,9 @@
+<div class="card" style="width: 18rem;">
+  <p class="card-title text-center">{{name}}</p>
+  <div class="card-body">{{address}}</div>
+  <div class="card-footer">
+    <button class="btn btn-info btn-block" href="#" onclick="getPlace({{index}});">
+      <i class="material-icons">event</i> Show Events
+    </button>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+
+<script>
+  var locations = {{ locations|tojson }}
+  var labels = {{ labels|tojson }}
+  var name_address = {{ name_address|tojson }}
+</script>

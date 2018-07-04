@@ -1,0 +1,42 @@
+<!doctype html>
+<html class="mdl-js">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Updated platform event Surabaya">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon-light.png') }}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  <!-- Add Material font (Roboto) and Material icon as needed -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Material Design for Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/material.min.css') }}">
+
+  <!-- Custom stylesheet and javascript-->
+  {% block css -%}{% endblock -%}
+  
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+  <title>Event Extract</title>    
+</head>
+<body>
+{% block sidenav -%}{% endblock -%}
+{% include 'navbar.html' %}
+<main class="container" id="main">
+  {% include 'message.html' -%}
+  {% block body -%}{% endblock -%}
+</main>
+
+<!-- Then Material JavaScript on top of Bootstrap JavaScript -->
+<script src="{{ url_for('static', filename='js/material.min.js') }}"></script>
+{% block js -%}{% endblock -%}
+</body>

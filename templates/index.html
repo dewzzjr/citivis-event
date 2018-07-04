@@ -1,0 +1,27 @@
+{% extends "layout.html" -%}
+
+{%- block css -%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidenav.css') }}">
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock -%}
+
+{%- block sidenav -%}
+<div id="sideList" class="sidenav">
+{# include "sidelist.html" -#}
+</div>
+<!-- /.sidenav -->
+{% endblock -%}
+
+{%- block body -%}
+{%- include "index.var" %}
+<div id="map" class="full-map"></div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Jw099A_9uXyK8KFQPxR93-cg3ks5E40&callback=initMap">
+</script>
+{% endblock -%}
+
+{% block js -%}
+{% include "ajax.var" -%}
+<script src="{{ url_for('static', filename='js/sidenav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ajaxPlace.js') }}"></script>
+{% endblock %}

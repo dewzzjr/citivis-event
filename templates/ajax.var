@@ -1,0 +1,12 @@
+
+<script>
+function getPlace(index) {
+    // ajax here
+    var url = '{{ url_for('get_place') }}'
+    var data = name_address[index]
+    // data.location = locations[index]
+    console.log(data)
+    sendAjax(data, url)
+    openNav()
+}
+</script>

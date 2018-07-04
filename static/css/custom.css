@@ -1,0 +1,49 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.card-map {
+    min-height: 500px;
+}
+
+.full-map {
+    min-height: calc(100vh - 76px);
+    top: 76px;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    z-index: 0;
+}
+
+.message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9;
+}
+
+.inner-message {
+    margin: 0 auto;
+}
+
+.user {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.text-title {
+    font-weight: 700;
+}
+
+.text-menu {
+    font-weight: 500;
+}
+
+.text-menu:hover {
+    border-bottom: 4px solid yellow;
+}

@@ -1,0 +1,119 @@
+{% extends "layout.html" -%} 
+
+{%- block css -%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/map-detail.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidenav.css') }}">
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% include "index.var" %}
+{% endblock -%}
+
+{%- block sidenav -%}
+<div id="sideList" class="sidenav">
+{# include "sidelist.html" -#}
+</div>
+<!-- /.sidenav -->
+{% endblock -%}
+
+{% block body -%}
+<div id="{{ data._id }}" class="card border-primary mb-3">
+  <div class="card-header text-muted">
+  {% if data.source == 'fb' -%} Facebook
+    <a href="https://www.facebook.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+  {% endif -%} {% if data.source == 'tw' -%} Twitter
+    <a href="https://twitter.com/{{ data.page }}" target="_blank">@{{ data.page }}</a>
+  {% endif -%} {% if data.source == 'ig' -%} Instagram
+    <a href="https://www.instagram.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+  {% endif -%}
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 pr-0 pl-0 text-center">
+        <img class="img-fluid" style="width:auto;" src="{{ data.image_url }}" alt="Image from {{ data.page }}">
+      </div>
+      <div id="map" class="col-lg-6 pr-0 pl-0"></div>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Jw099A_9uXyK8KFQPxR93-cg3ks5E40&callback=initMap"></script>
+      
+    </div>
+  </div>
+  <div class="card-body">
+    {% if data.entities.name -%}
+    <h5 class="card-title">{{ data.entities.name[0] }}</h5>
+    {% endif -%}
+    <p class="card-text">{{ data.full_text }}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    {% if data.entities.place -%} 
+    {% for d in data.entities.place -%}
+    <li class="list-group-item">
+      <i class="material-icons">
+        place
+      </i>
+      {{ d.name }}
+      <p class="text-muted">{{ d.address }}</p>
+    </li>
+    {% endfor -%} 
+    {% endif -%} 
+    {% if data.entities.time -%} 
+    {% for time in data.entities.time -%}
+    <li class="list-group-item">
+      <i class="material-icons">
+        access_time
+      </i>
+      {{ time }}
+    </li>
+    {% endfor -%} 
+    {% endif -%} 
+    {% if data.entities.info -%} 
+    {% for info in data.entities.info -%}
+    <li class="list-group-item">
+      <i class="material-icons">
+        contact_support
+      </i>
+      {{ info }}
+    </li>
+    {% endfor -%} 
+    {% endif -%}
+  </ul>
+  <div class="card-body">
+  {% if data.source == 'fb' -%}
+    <a href="{{ data.source_url }}" class="card-link" target="_blank">
+      <i class="fa fa-facebook mr-2"></i>Sumber
+    </a>
+  {% endif -%}
+  {% if data.source == 'tw' -%}
+    <a href="{{ data.source_url }}" class="card-link" target="_blank">
+      <i class="fa fa-twitter mr-2"></i>Sumber
+    </a>
+  {% endif -%}
+  {% if data.source == 'ig' -%}
+    <a href="{{ data.source_url }}" class="card-link" target="_blank">
+      <i class="fa fa-instagram mr-2"></i>Sumber
+    </a>
+  {% endif -%}
+  {% if data.entities.time -%}
+  {% if session.get('access_token') -%}
+    <a href="{{ url_for('insert_calendar', id=data._id, next=request.url) }}" class="card-link">
+      <i class="material-icons mr-1">add_alert</i>Buat Pengingat
+    </a>
+  {% else -%}
+  <a href="{{ url_for('signin', next=request.url) }}" class="card-link">
+      <i class="material-icons mr-1">play_for_work</i>
+      Login untuk Buat Pengingat
+    </a>
+  {% endif -%}
+  {% endif -%}
+  </div>
+  <!-- map here -->
+  <div class="card-footer text-muted">
+    {{ data.created_time }}
+  </div>
+</div>
+<!-- /.card -->
+{% endblock %} 
+
+{% block js -%}
+{% include "ajax.var" -%}
+<script src="{{ url_for('static', filename='js/sidenav.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ajaxPlace.js') }}"></script>
+{% endblock%}
