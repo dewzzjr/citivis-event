@@ -1,0 +1,115 @@
+{% extends "layout.html" -%} 
+
+{%- block css -%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/map-detail.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidenav.css') }}">
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock -%}
+
+{%- block sidenav -%}
+<div id="sideList" class="sidenav">
+{# include "sidelist.html" -#}
+</div>
+<!-- /.sidenav -->
+{% endblock -%}
+
+{% block body -%}
+<div class="container">
+  {% include "pagination.html" %}
+  <div class="row">
+    {% for data in datas -%}
+    <div class="col-md-12 col-lg-6 mb-3">
+      <div id="{{ data._id }}" class="card border-primary mb-1 h-100">
+        <div class="card-header text-muted">
+        {% if data.source == 'fb' -%}
+          Facebook
+          <a href="https://www.facebook.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+        {% endif -%}
+        {% if data.source == 'tw' -%}
+          Twitter
+          <a href="https://twitter.com/{{ data.page }}" target="_blank">@{{ data.page }}</a>
+        {% endif -%}
+        {% if data.source == 'ig' -%}
+          Instagram
+          <a href="https://www.instagram.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+        {% endif -%}
+        </div>
+        {% if data.image_url -%}
+        <img class="card-img-top img-fluid" src="{{ data.image_url }}" alt="Image from {{ data.page }}">
+        {% endif -%}
+        <div class="card-body flex-grow">
+          {% if data.entities and data.entities.name -%}
+          <h5 class="card-title">{{ data.entities.name[0] }}</h5>
+          {% endif -%}
+          <p class="card-text">{{ data.full_text }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+        {% if data.entities %}
+          {% if data.entities.place -%}
+          {% for d in data.entities.place -%}
+          <li class="list-group-item">
+            <i class="material-icons">
+              place
+            </i>
+            {{ d.name }}
+            <p class="text-muted">{{ d.address }}</p>
+          </li>
+          {% endfor -%}
+          {% endif -%}
+          {% if data.entities.time -%}
+          {% for time in data.entities.time -%}
+          <li class="list-group-item">
+            <i class="material-icons">
+              access_time
+            </i>
+            {{ time.strftime("%A, %d %B %Y") }}
+          </li>
+          {% endfor -%}
+          {% endif -%}
+          {% if data.entities.info -%}
+          {% for info in data.entities.info -%}
+          <li class="list-group-item">
+            <i class="material-icons">
+              contact_support
+            </i>
+            {{ info }}
+          </li>
+          {% endfor -%}
+          {% endif -%}
+        {% endif -%}
+          <div class="card-body ">
+          {% if data.source == 'fb' -%}
+            <a href="{{ data.source_url }}" class="card-link" target="_blank">
+              <i class="fa fa-facebook mr-2"></i>Sumber
+            </a>
+          {% endif -%}
+          {% if data.source == 'tw' -%}
+            <a href="{{ data.source_url }}" class="card-link" target="_blank">
+              <i class="fa fa-twitter mr-2"></i>Sumber
+            </a>
+          {% endif -%}
+          {% if data.source == 'ig' -%}
+            <a href="{{ data.source_url }}" class="card-link" target="_blank">
+              <i class="fa fa-instagram mr-1"></i>Sumber
+            </a>
+          {% endif -%}
+            <a href="{{ url_for('detail', id=data._id) }}" class="card-link">
+              <i class="material-icons">details</i>Lihat Detail
+            </a>
+          </div>
+        </ul>
+        <!-- /.list-group -->
+        <div class="card-footer text-muted">
+          {{ data.created_time }}
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    {% endfor -%}
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container -->
+{% endblock %}

@@ -28,20 +28,24 @@
   </div>
   <div class="container">
     <div class="row">
+    {% if data.image_url and data.entities -%}
       <div class="col-lg-6 pr-0 pl-0 text-center">
         <img class="img-fluid" style="width:auto;" src="{{ data.image_url }}" alt="Image from {{ data.page }}">
       </div>
+      {% if data.entities.place -%}
       <div id="map" class="col-lg-6 pr-0 pl-0"></div>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Jw099A_9uXyK8KFQPxR93-cg3ks5E40&callback=initMap"></script>
-      
+      {% endif -%}
+    {% endif -%}
     </div>
   </div>
   <div class="card-body">
-    {% if data.entities.name -%}
+    {% if data.entities and data.entities.name -%}
     <h5 class="card-title">{{ data.entities.name[0] }}</h5>
     {% endif -%}
     <p class="card-text">{{ data.full_text }}</p>
   </div>
+  {% if data.entities %}
   <ul class="list-group list-group-flush">
     {% if data.entities.place -%} 
     {% for d in data.entities.place -%}
@@ -60,7 +64,7 @@
       <i class="material-icons">
         access_time
       </i>
-      {{ time }}
+      {{ time.strftime("%A, %d %B %Y") }}
     </li>
     {% endfor -%} 
     {% endif -%} 
@@ -75,6 +79,7 @@
     {% endfor -%} 
     {% endif -%}
   </ul>
+  {% endif -%}
   <div class="card-body">
   {% if data.source == 'fb' -%}
     <a href="{{ data.source_url }}" class="card-link" target="_blank">
@@ -116,4 +121,4 @@
 {% include "ajax.var" -%}
 <script src="{{ url_for('static', filename='js/sidenav.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ajaxPlace.js') }}"></script>
-{% endblock%}
+{% endblock %}

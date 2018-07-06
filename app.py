@@ -5,6 +5,8 @@ import urllib
 from google import GoogleFactory
 from provider import DataProvider
 from mongo import MongoProvider
+from pagination import Pagination
+import locale
 import json
 import re
 import sys
@@ -35,9 +37,8 @@ google = oauth.remote_app(
 	authorize_url=client['web']['auth_uri'],
 	request_token_url=None,
 	request_token_params = {
-		'scope':
-			'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar',
-		'response_type': 'code'
+		'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar',
+		'response_type': 'code',
 	},
 	access_token_url=client['web']['token_uri'],
 	access_token_method='POST',
@@ -46,6 +47,7 @@ google = oauth.remote_app(
 	consumer_secret=GOOGLE_CLIENT_SECRET
 )
 
+locale.setlocale(locale.LC_ALL, 'id_ID.UTF-8')
 
 def makeLabel(index, name, address):
 	text = render_template(
@@ -76,6 +78,13 @@ def getProfile():
 			abort(401)
 		return None
 	return json.loads(res.read())
+
+def getEntries(page, limit, data=None):
+	if page < 1:
+		return []
+	offset = (page - 1) * limit
+	if data is None:
+		return db.getEntries(offset, limit)
 
 def addEventToCalendar(data, title, date, location):
 	access_token = session.get('access_token')
@@ -110,7 +119,11 @@ def get_place():
 @app.route('/featured/page/<int:page>', defaults={ 'limit' : PER_PAGE })
 @app.route('/featured/page/<int:page>/limit/<int:limit>')
 def home(page, limit):
-	pass
+	data = db.getAll()
+	count = data.count()
+	pagination = Pagination(page, limit, count)
+	entries = getEntries(page, limit)
+	return render_template("featured.html", pagination=pagination, datas=entries)
 
 @app.route('/detail/<string:id>')
 def detail(id=None):
@@ -200,21 +213,6 @@ def signin():
 		return redirect(url_for('login'))
 	return redirect(url)
 
-@app.route('/home')
-def profile():
-	# start: authentication google
-	access_token = session.get('access_token')
-	if access_token is None:
-		return redirect(url_for('signin', url=url_for('profile')))
-	profile = getProfile()
-	
-	if profile is not None:
-		name = profile['name']
-		img = profile['picture']
-		return name, img
-	else:
-		return redirect(url_for('signin'))
-
 @app.route('/add_reminder/<string:id>')
 def insert_calendar(id):
 	url = request.args.get('next', url_for('index'))
@@ -271,6 +269,16 @@ def authorized(resp):
 @google.tokengetter
 def get_access_token():
 	return session.get('access_token')
+
+
+@app.context_processor
+def context_processor():
+	def url_for_other_page(page):
+		args = request.view_args.copy()
+		args['page'] = page
+		return url_for(request.endpoint, **args)
+
+	return dict(url_for_other_page=url_for_other_page)
 
 def main():
 	app.run()

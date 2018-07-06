@@ -6,6 +6,16 @@
 		</a>
 		<div class="navbar justify-content-end" id="navbarNavDropdown">
 			<div class="navbar-nav">
+				<div class="nav-item">
+					<a href="{{ url_for('home') }}" class="nav-link">FEATURED</a>
+				</div>
+				<form class="form-inline" id="form-place">
+					<input id="input-place" class="form-control mr-sm-2" id="search-place" type="search" name="place" placeholder="Cari lokasi.." aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+						<i class="material-icons">search</i>
+					</button>
+				</form>
+				<!-- /.form-search-place -->
 				<div class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
 						<span class="sr-only">menu</span>

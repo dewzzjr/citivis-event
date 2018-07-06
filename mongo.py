@@ -2,6 +2,8 @@ from database.md import MongoDB
 import pymongo
 
 class MongoProvider(MongoDB):
+    def getAll(self):
+        return self.getDataset().find().sort("created_time", pymongo.DESCENDING)
 
     def getAllPlace(self):
         return self.getAll().distinct('entities.place')
@@ -10,6 +12,11 @@ class MongoProvider(MongoDB):
         return self.getAll().distinct('entities.time')
 
     def searchEventsByLocation(self, data):
-        return self.mongo[self.db_name][self.dataset].find(
+        return self.getDataset().find(
             {'entities.place': {'$in': [data]}}
-        ).sort([("created_time", pymongo.DESCENDING)]).limit(15)
+        ).sort([("created_time", pymongo.DESCENDING)]).limit(30)
+
+    def searchEventsByTime(self, data):
+        return self.getDataset().find(
+            {'entities.time': {'$in': [data]}}
+        ).sort([("created_time", pymongo.DESCENDING)])

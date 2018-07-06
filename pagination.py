@@ -24,8 +24,8 @@ class Pagination(object):
 
     def iter_pages(self,
         left_edge=1,
-        left_current=1,
-        right_current=2,
+        left_current=2,
+        right_current=3,
         right_edge=1
     ):
         last = 0
