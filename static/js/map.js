@@ -5,6 +5,11 @@ function initMap() {
         zoom: 13
     });
 
+    if (locations.length < 4 && locations.length > 0) {
+        var center = { lat: locations[0].lat, lng: locations[0].lng }
+        map.panTo(center);
+    }
+
     for (var i = 0; i < locations.length; i++) {
         var tmpLat = locations[i].lat;
         var tmpLng = locations[i].lng;
