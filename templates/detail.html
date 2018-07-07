@@ -19,18 +19,18 @@
 <div id="{{ data._id }}" class="card border-primary mb-3">
   <div class="card-header text-muted">
   {% if data.source == 'fb' -%} Facebook
-    <a href="https://www.facebook.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+    <a href="https://www.facebook.com/{{ data.user }}/" target="_blank">@{{ data.user }}</a>
   {% endif -%} {% if data.source == 'tw' -%} Twitter
-    <a href="https://twitter.com/{{ data.page }}" target="_blank">@{{ data.page }}</a>
+    <a href="https://twitter.com/{{ data.user }}" target="_blank">@{{ data.user }}</a>
   {% endif -%} {% if data.source == 'ig' -%} Instagram
-    <a href="https://www.instagram.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+    <a href="https://www.instagram.com/{{ data.user }}/" target="_blank">@{{ data.user }}</a>
   {% endif -%}
   </div>
   <div class="container">
     <div class="row">
     {% if data.image_url and data.entities -%}
       <div class="col-lg-6 pr-0 pl-0 text-center">
-        <img class="img-fluid" style="width:auto;" src="{{ data.image_url }}" alt="Image from {{ data.page }}">
+        <img class="img-fluid" style="width:auto;" src="{{ data.image_url }}" alt="Image from {{ data.user }}">
       </div>
       {% if data.entities.place -%}
       <div id="map" class="col-lg-6 pr-0 pl-0"></div>

@@ -9,18 +9,18 @@
 				<div class="card-header text-muted">
 				{% if data.source == 'fb' -%}
 					Facebook
-					<a href="https://www.facebook.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+					<a href="https://www.facebook.com/{{ data.user }}/" target="_blank">@{{ data.user }}</a>
 				{% endif -%}
 				{% if data.source == 'tw' -%}
 					Twitter
-					<a href="https://twitter.com/{{ data.page }}" target="_blank">@{{ data.page }}</a>
+					<a href="https://twitter.com/{{ data.user }}" target="_blank">@{{ data.user }}</a>
 				{% endif -%}
 				{% if data.source == 'ig' -%}
 					Instagram
-					<a href="https://www.instagram.com/{{ data.page }}/" target="_blank">@{{ data.page }}</a>
+					<a href="https://www.instagram.com/{{ data.user }}/" target="_blank">@{{ data.user }}</a>
 				{% endif -%}
 				</div>
-				<img class="card-img-top img-fluid" src="{{ data.image_url }}" alt="Image from {{ data.page }}">
+				<img class="card-img-top img-fluid" src="{{ data.image_url }}" alt="Image from {{ data.user }}">
 				<div class="card-body">
 					{% if data.entities.name -%}
 					<h5 class="card-title">{{ data.entities.name[0] }}</h5>
