@@ -68,10 +68,20 @@ class MongoDB(AbstractDB):
                 if 'USER' in self.config[config_name]:
                     mongo_user = self.config[config_name]['USER']
                     mongo_pass = self.config[config_name]['PASS']
-                    print('mongodb+srv://'+mongo_user+':' +
-                          mongo_pass+'@'+mongo_host+'/'+db_name)
+                    print(
+                        'mongodb+srv://'
+                        + mongo_user + ':'
+                        + mongo_pass + '@'
+                        + mongo_host + '/'
+                        + db_name
+                    )
                     self.mongo = MongoClient(
-                        'mongodb+srv://'+mongo_user+':'+mongo_pass+'@'+mongo_host+'/'+db_name)
+                        'mongodb+srv://'
+                        + mongo_user + ':'
+                        + mongo_pass + '@'
+                        + mongo_host + '/'
+                        + db_name
+                    )
 
                 else:
                     self.mongo = MongoClient(mongo_host, mongo_port)
