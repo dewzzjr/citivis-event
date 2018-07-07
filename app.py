@@ -1,11 +1,11 @@
 from flask import Flask, redirect, url_for, session, flash, render_template, request, abort
 from flask_oauth import OAuth
-import googlemaps
-import urllib
 from google import GoogleFactory
-from provider import DataProvider
+# from provider import DataProvider
 from mongo import MongoProvider
 from pagination import Pagination
+import googlemaps
+import urllib
 import locale
 import json
 import re
@@ -22,14 +22,14 @@ REDIRECT_URI = '/authorized' # one of the Redirect URIs from Google APIs console
 
 SECRET_KEY = 'mysecretkeyisverysecret'
 DEBUG = True
-PER_PAGE = 10
+PER_PAGE = 6
 app = Flask(__name__)
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
 oauth = OAuth()
 gmaps = googlemaps.Client(key='AIzaSyC9Jw099A_9uXyK8KFQPxR93-cg3ks5E40')
-# provider = DataProvider(mapClient=gmaps)
 db = MongoProvider('config.ini')
+# provider = DataProvider(mapClient=gmaps, mongo=db)
 api = GoogleFactory()
 google = oauth.remote_app(
 	'google',
@@ -134,16 +134,6 @@ def detail(id=None):
 	if data is None:
 		return abort(404)
 
-	profile = getProfile()
-	if profile is not None:
-		session['profile_name'] = profile['name']
-		session['profile_picture'] = profile['picture']
-		session['email'] = profile['email']
-	else:
-		session.pop('profile_name', None)
-		session.pop('profile_picture', None)
-		session.pop('email', None)
-	
 	locations = []
 	labels = []
 	name_address = []
@@ -165,16 +155,6 @@ def index(query=None):
 	if session.get('url'):
 		url = session.pop('url', None)
 		return redirect(url)
-
-	profile = getProfile()
-	if profile is not None:
-		session['profile_name'] = profile['name']
-		session['profile_picture'] = profile['picture']
-		session['email'] = profile['email']
-	else:
-		session.pop('profile_name', None)
-		session.pop('profile_picture', None)
-		session.pop('email', None)
 
 	locations = []
 	labels = []
@@ -209,7 +189,7 @@ def signin():
 	url = request.args.get('next', url_for('index'))
 	access_token = session.get('access_token')
 	if access_token is None:
-		session['url'] = url
+		# session['url'] = url
 		return redirect(url_for('login'))
 	return redirect(url)
 
@@ -261,9 +241,18 @@ def logout():
 def authorized(resp):
 	access_token = resp['access_token']
 	session['access_token'] = access_token, ''
+	profile = getProfile()
+	if profile is not None:
+		session['profile_name'] = profile['name']
+		session['profile_picture'] = profile['picture']
+		session['email'] = profile['email']
+	else:
+		session.pop('profile_name', None)
+		session.pop('profile_picture', None)
+		session.pop('email', None)
 	flash('You were successfully logged in')
-	if 'url' in session:
-		return redirect(session['url'])
+	# if 'url' in session:
+	# 	return redirect(session['url'])
 	return redirect(url_for('index'))
 
 @google.tokengetter
