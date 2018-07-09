@@ -1,55 +1,62 @@
 <header class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container">
 		<a class="navbar-brand" href="{{ url_for('index') }}">
-			<img class="d-inline-block align-top" height="30" src="{{ url_for('static', filename='icon-light.png')}}"/>
+			<img class="icon-brand d-inline-block align-top" src="{{ url_for('static', filename='icon-light.png')}}"/>
 			CitiVis
 		</a>
-		<div class="navbar justify-content-end" id="navbarNavDropdown">
-			<div class="navbar-nav">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarNav" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="nav collapse navbar-collapse navbar-right" id="navbar">
+			<div class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<div class="nav-item">
 					<a href="{{ url_for('home') }}" class="nav-link">FEATURED</a>
 				</div>
-				<form class="form-inline" id="form-place">
-					<input id="input-place" class="form-control mr-sm-2" id="search-place" type="search" name="place" placeholder="Cari lokasi.." aria-label="Search">
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-						<i class="material-icons">search</i>
-					</button>
-				</form>
-				<!-- /.form-search-place -->
-				<div class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
-						<span class="sr-only">menu</span>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right">
-					{% if session.get('access_token') -%}
-						<div class="media ml-2 mr-2">
-							<img src="{{ session.get('profile_picture') }}" class="user mr-2" alt="{{ session.get('profile_name') }}">
-							<div class="media-body text-right">
-								<h5 class="mb-0">
-									{{ session.get('profile_name') }}
-								</h5>
-								<p class="mb-3 text-muted">
-									{{ session.get('email') }}
-								</p>
-								<a class="btn btn-primary" href="{{ url_for('logout', next= request.url) }}">
-									<i class="material-icons">exit_to_app</i>
-									Logout
-								</a>
-							</div>
-							<!-- /.media-body -->
-						</div>
-						<!-- /.media -->
-					{% else -%}
-						<a class="dropdown-item success" href="{{ url_for('signin', next= request.url) }}">
-							<i class="material-icons">play_for_work</i>
-							Login
-						</a>
-					{% endif -%}
-					</div>
+				<div class="nav-item">
+					<a href="{{ url_for('upcoming') }}" class="nav-link">UPCOMING</a>
 				</div>
-				<!-- /.dropdown -->
+				{% if session.get('access_token') -%}
+				<div class="nav-item btn-group p-0 m-0 ml-2">
+					<a class="nav-link btn btn-outline-primary p-1" href="#" data-toggle="dropdown">
+						<img src="{{ session.get('profile_picture') }}" class="user d-inline-block" alt="{{ session.get('profile_name') }}">
+					</a>
+					<div class="dropdown-menu dropdown-menu-right p-2">
+						<p class="dropdown-header">
+							{{ session.get('profile_name') }}
+							</h5>
+							<h6 class="dropdown-item disabled">
+								{{ session.get('email') }}
+							</h6>
+							<a class="dropdown-item" href="{{ url_for('logout', next= request.url) }}">
+								<i class="material-icons">exit_to_app</i>
+								LOGOUT
+							</a>
+					</div>
+					<!-- /.dropdown -->
+				</div>
+				<!-- /.nav-item -->
+				{% else -%}
+				<div class="nav-item">
+					<a class="nav-link" href="{{ url_for('signin', next= request.url) }}">
+						<i class="material-icons">play_for_work</i>
+						LOGIN
+					</a>
+				</div>
+				{% endif -%}
 			</div>
 			<!-- /.navbar-nav -->
+			
+			<form class="form-inline my-2 my-lg-0" id="form-place">
+				<input id="input-place" class="form-control mr-sm-2" id="search-place" type="search" name="place" placeholder="Cari lokasi.."
+					aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+					<i class="material-icons">search</i>
+				</button>
+			</form>
+			<!-- /.form-search-place -->
+
+			
 		</div>
 		<!-- /.collapse -->
 	</div>

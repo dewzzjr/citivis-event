@@ -149,17 +149,35 @@ def detail(id=None):
 
 	return render_template('detail.html', data=data, locations=locations, labels=labels, name_address=name_address)
 
-@app.route('/')
-@app.route('/search/<string:query>')
-def index(query=None):
-	if session.get('url'):
-		url = session.pop('url', None)
-		return redirect(url)
-
+@app.route('/upcoming')
+def upcoming():
+	# return list(db.getAllTimse())
 	locations = []
 	labels = []
 	name_address = []
 
+	data = db.searchEventsByUpcoming().distinct('entities.place')
+	for index, d in enumerate(data):
+		locations.append(d['location'])
+		name_address.append(
+			{'name': d['name'], 'address': d['address'], 'location': d['location']}
+		)
+		text = makeLabel(index, d['name'], d['address'])
+		labels.append(text)
+
+	return render_template('index.html', locations=locations, labels=labels, name_address=name_address) 
+
+@app.route('/')
+@app.route('/search/<string:query>')
+def index(query=None):
+	# if session.get('url'):
+	# 	url = session.pop('url', None)
+	# 	return redirect(url)
+
+	locations = []
+	labels = []
+	name_address = []
+	
 	if query is None:
 		data = db.getAllPlace()
 		for index, d in enumerate(data):

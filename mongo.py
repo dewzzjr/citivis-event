@@ -1,4 +1,5 @@
 from database.md import MongoDB
+import datetime
 import pymongo
 
 class MongoProvider(MongoDB):
@@ -15,8 +16,16 @@ class MongoProvider(MongoDB):
         return self.getDataset().find(
             {'entities.place': {'$in': [data]}}
         ).sort([("created_time", pymongo.DESCENDING)]).limit(30)
-
+    
     def searchEventsByTime(self, data):
         return self.getDataset().find(
             {'entities.time': {'$in': [data]}}
+        ).sort([("created_time", pymongo.DESCENDING)])
+
+    def searchEventsByUpcoming(self):
+        data = datetime.datetime.today()
+        return self.getDataset().find(
+            {
+                'entities.time': {'$gte': data}
+            }
         ).sort([("created_time", pymongo.DESCENDING)])
