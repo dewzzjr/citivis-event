@@ -25,7 +25,9 @@
 					<a href="https://www.instagram.com/{{ data.user }}/" target="_blank">@{{ data.user }}</a>
 				{% endif -%}
 				</div>
+				{% if data.image_url %}
 				<img class="card-img-top img-fluid" src="{{ data.image_url }}" alt="Image from {{ data.user }}">
+				{% endif %}
 				<div class="card-body">
 					{% if data.entities.name -%}
 					<h5 class="card-title">{{ data.entities.name[0] }}</h5>
