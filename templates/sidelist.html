@@ -3,6 +3,11 @@
 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 <div class="container">
 	<div class="row">
+		{% if datas.count(True) == 0 %}
+		<div class="col-md-12 col-lg-6 mb-3 bg-primary rounded text-center text-muted">
+			<h3>EVENT NOT FOUND</h3>
+		</div>
+		{% endif %}
 		{% for data in datas -%}
 		<div class="col-md-12 col-lg-6 mb-3">
 			<div id="{{ data._id }}" class="card h-100 border-primary mb-3">

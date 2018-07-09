@@ -17,9 +17,9 @@
 					<a href="{{ url_for('upcoming') }}" class="nav-link">UPCOMING</a>
 				</div>
 				{% if session.get('access_token') -%}
-				<div class="nav-item btn-group p-0 m-0 ml-2">
+				<div class="nav-item btn-group p-0 m-0 ml-2 rounded-circle">
 					<a class="nav-link btn btn-outline-primary p-1" href="#" data-toggle="dropdown">
-						<img src="{{ session.get('profile_picture') }}" class="user d-inline-block" alt="{{ session.get('profile_name') }}">
+						<img src="{{ session.get('profile_picture') }}" class="user d-inline-block m-auto" alt="{{ session.get('profile_name') }}">
 					</a>
 					<div class="dropdown-menu dropdown-menu-right p-2">
 						<p class="dropdown-header">
