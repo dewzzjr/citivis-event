@@ -24,14 +24,14 @@
 					<div class="dropdown-menu dropdown-menu-right p-2">
 						<p class="dropdown-header">
 							{{ session.get('profile_name') }}
-							</h5>
-							<h6 class="dropdown-item disabled">
-								{{ session.get('email') }}
-							</h6>
-							<a class="dropdown-item" href="{{ url_for('logout', next= request.url) }}">
-								<i class="material-icons">exit_to_app</i>
-								LOGOUT
-							</a>
+						</p>
+						<h6 class="dropdown-item disabled">
+							{{ session.get('email') }}
+						</h6>
+						<a class="dropdown-item" href="{{ url_for('logout', next= request.url) }}">
+							<i class="material-icons">exit_to_app</i>
+							LOGOUT
+						</a>
 					</div>
 					<!-- /.dropdown -->
 				</div>
