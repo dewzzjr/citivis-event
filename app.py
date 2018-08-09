@@ -170,9 +170,9 @@ def upcoming():
 @app.route('/')
 @app.route('/search/<string:query>')
 def index(query=None):
-	# if session.get('url'):
-	# 	url = session.pop('url', None)
-	# 	return redirect(url)
+	if session.get('url'):
+		url = session.pop('url', None)
+		return redirect(url)
 
 	locations = []
 	labels = []
@@ -207,7 +207,7 @@ def signin():
 	url = request.args.get('next', url_for('index'))
 	access_token = session.get('access_token')
 	if access_token is None:
-		# session['url'] = url
+		session['url'] = url
 		return redirect(url_for('login'))
 	return redirect(url)
 
@@ -269,8 +269,8 @@ def authorized(resp):
 		session.pop('profile_picture', None)
 		session.pop('email', None)
 	flash('You were successfully logged in')
-	# if 'url' in session:
-	# 	return redirect(session['url'])
+	if 'url' in session:
+		return redirect(session['url'])
 	return redirect(url_for('index'))
 
 @google.tokengetter
